@@ -12,16 +12,16 @@
         private readonly IMapper _mapper;
 
         public TodoService(
-                ITodoRepository userProfileRepository,
+                ITodoRepository todoRepository,
                 IMapper mapper)
         {
-            _todoRepository = userProfileRepository;
+            _todoRepository = todoRepository;
             _mapper = mapper;
         }
 
-        public IEnumerable<TodoDto> GetAll(int userId)
+        public IEnumerable<TodoDto> GetAll()
         {
-            return _mapper.Map<IEnumerable<TodoDto>>(_todoRepository.GetAll(userId));
+            return _mapper.Map<IEnumerable<TodoDto>>(_todoRepository.GetAll());
         }
 
         public void UpdateTask(TodoDto task)

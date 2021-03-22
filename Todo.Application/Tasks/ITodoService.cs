@@ -4,7 +4,7 @@
 
     public interface ITodoService
     {
-        IEnumerable<TodoDto> GetAll(int userId);
+        IEnumerable<TodoDto> GetAll();
 
         void UpdateTask(TodoDto task);
     }

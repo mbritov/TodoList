@@ -18,8 +18,7 @@
         [Route("Todo")]
         public IEnumerable<TodoDto> GetAll()
         {
-            var userId = 1; // todo - send as an parameter
-            return _service.GetAll(userId);
+            return _service.GetAll();
         }
 
         [HttpPut]

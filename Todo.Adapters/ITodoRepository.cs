@@ -5,7 +5,7 @@
 
     public interface ITodoRepository
     {
-        IEnumerable<TaskEntity> GetAll(int userId);
+        IEnumerable<TaskEntity> GetAll();
 
         TaskEntity GetTask(int id);
 

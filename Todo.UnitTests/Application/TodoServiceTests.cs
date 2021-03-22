@@ -1,4 +1,4 @@
-﻿namespace Todo.Core.UnitTests.VOM.Application.UserProfile
+﻿namespace Todo.Core.UnitTests.Application.UserProfile
 {
     using AutoMapper;
     using FluentAssertions;
@@ -10,58 +10,115 @@
     using System.Threading.Tasks;
     using Xunit;
     using AutoFixture.Xunit2;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    //using System.Text.Json;
 
     public class TodoServiceTests
     {
         private readonly Mock<ITodoRepository> _todoRepositoryMock;
-        private readonly TodoService _userProfileService;
+        private readonly TodoService _todoService;
 
         public TodoServiceTests()
         {
             _todoRepositoryMock = new Mock<ITodoRepository>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = config.CreateMapper();
-            _userProfileService = new TodoService(_todoRepositoryMock.Object, mapper);
+            _todoService = new TodoService(_todoRepositoryMock.Object, mapper);
         }
 
         [Fact]
         [Trait("Category", "Unit")]
-        public void GetUserProfile_ReturnsExpectedDto_WithEmptyVOMFields_IfVOMProfileNotExits()
+        public void GetAll_ReturnsAllTasks()
         {
             // Arrange
-            var userId = 5;
-            //var dbProfile = new SharedUserProfile
-            //{
-            //    FirstName = "firstName1",
-            //    LastName = "lastName1",
-            //    Roles = new List<ViewUserRoles>()
-            //};
+            IEnumerable<TaskEntity> tasks = new List<TaskEntity>
+            {
+                new TaskEntity
+                {
+                    Id = 1, Subject = "Name1", Description = "desc1", Status = 0
+                },
+                new TaskEntity
+                {
+                    Id = 2, Subject = "Name2", Description = "desc2", Status = 1
+                }
+            };
 
-            //var expected = new TodoDto
-            //{
-            //    FirstName = "firstName1",
-            //    LastName = "lastName1",
-            //    Roles = new List<string>(),
-            //    EligibleCreationReferals = new List<int>(),
-            //    EligibleReviewReferals = new List<int>(),
-            //    EligibleAreas = new List<CoverageAreaDto>()
-            //};
+            _todoRepositoryMock.Setup(repository => repository.GetAll()).Returns(tasks);
+            var expectedDepartments = new List<TodoDto>
+            {
+                new TodoDto
+                {
+                    Id = 1, Subject = "Name1", Description = "desc1", Status = Todo.Application.TaskStatus.Pending
+                },
+                new TodoDto
+                {
+                    Id = 2, Subject = "Name2", Description = "desc2", Status = Todo.Application.TaskStatus.Completed
+                }
+            };
 
-            //_todoRepositoryMock
-            //    .Setup(repo => repo.GetSharedUserProfileAsync(It.IsAny<int>()))
-            //    .Returns(System.Threading.Tasks.Task.FromResult(dbProfile));
+            // Act
+            var actualTasks = _todoService.GetAll();
 
-            //// Act
-            //var actualCollection = await _userProfileService.GetUserProfile(userId);
+            // Assert
+            actualTasks.Should().BeEquivalentTo(expectedDepartments);
+        }
 
-            //// Assert
-            //actualCollection.Should().BeEquivalentTo(expected);
+        [Theory, AutoData]
+        [Trait("Category", "Unit")]
+        public void UpdateTodoTask_UpdatesExistingTask_WhentaskExists(TodoDto todoDto)
+        {
+            // Arrange
+            var expectedTodoTask = new TaskEntity
+            {
+                Id = todoDto.Id, Subject = todoDto.Subject, Description = todoDto.Description, Status = (int)todoDto.Status
+            };
 
-            //_todoRepositoryMock
-            //    .Verify(repo => repo.GetSharedUserProfileAsync(It.Is<int>(actualUserId => actualUserId == userId)));
-        }        
+            var existingTodoTask = new TaskEntity()
+            {
+                Id = todoDto.Id,
+            };
+
+            _todoRepositoryMock.Setup(repo => repo.GetTask(It.IsAny<int>()))
+                .Returns(existingTodoTask);
+
+            // Act
+            _todoService.UpdateTask(todoDto);
+
+            // Assert
+            existingTodoTask.Should().BeEquivalentTo(expectedTodoTask, options =>
+                options.Excluding(p => p.UpdatedDate));
+
+            _todoRepositoryMock.Verify(repo => repo.GetTask(It.Is<int>(actualId => actualId == todoDto.Id)));
+        }
+
+        [Theory, AutoData]
+        [Trait("Category", "Unit")]
+        public void UpdateTodoTask_AddNewTask_WhenTaskDoesNotExist(TodoDto todoDto)
+        {
+            // Arrange
+            var expectedTodoTask = new TaskEntity
+            {
+                Id = todoDto.Id,
+                Subject = todoDto.Subject,
+                Description = todoDto.Description,
+                Status = (int)todoDto.Status
+            };
+
+            var newTask = new TaskEntity { };
+
+            const TaskEntity nonExistingProperty = null;
+            _todoRepositoryMock.Setup(repo => repo.GetTask(It.IsAny<int>()))
+                .Returns(nonExistingProperty);
+
+            _todoRepositoryMock.Setup(repo => repo.CreateTask())
+                .Returns(newTask);
+
+            // Act
+            _todoService.UpdateTask(todoDto);
+
+            // Assert
+            newTask.Should().BeEquivalentTo(expectedTodoTask, options =>
+                options.Excluding(p => p.UpdatedDate));
+
+            _todoRepositoryMock.Verify(repo => repo.GetTask(It.Is<int>(actualId => actualId == todoDto.Id)));
+        }
     }
 }
