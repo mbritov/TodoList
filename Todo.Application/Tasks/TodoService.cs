@@ -19,9 +19,21 @@
             _mapper = mapper;
         }
 
+        public void AddTask(TodoDto task)
+        {
+            var dbTask = _todoRepository.CreateTask();
+
+            SetTask(dbTask, task);
+        }
+
         public IEnumerable<TodoDto> GetAll()
         {
             return _mapper.Map<IEnumerable<TodoDto>>(_todoRepository.GetAll());
+        }
+
+        public TodoDto GetTask(int id)
+        {
+            return _mapper.Map<TodoDto>(_todoRepository.GetTask(id));
         }
 
         public void UpdateTask(TodoDto task)
@@ -30,7 +42,6 @@
             if (dbTask == null)
             {
                 dbTask = _todoRepository.CreateTask();
-                dbTask.Id = task.Id;
             }
 
             SetTask(dbTask, task);

@@ -20,6 +20,7 @@
         public TaskEntity CreateTask()
         {
             var newTask = new TaskEntity() { };
+            newTask.Id = _taskCollection.Count();
             _taskCollection.Add(newTask);
             return newTask;
         }

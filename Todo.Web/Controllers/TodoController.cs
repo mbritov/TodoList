@@ -20,6 +20,19 @@
         {
             return _service.GetAll();
         }
+        [HttpGet]
+        [Route("Todo/{id}")]
+        public TodoDto GetTask(int id)
+        {
+            return _service.GetTask(id);
+        }
+
+        [HttpPost]
+        [Route("Todo")]
+        public void Post(TodoDto task)
+        {
+            _service.AddTask(task);
+        }
 
         [HttpPut]
         [Route("Todo")]

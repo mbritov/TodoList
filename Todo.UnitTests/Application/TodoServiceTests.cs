@@ -91,7 +91,7 @@
 
         [Theory, AutoData]
         [Trait("Category", "Unit")]
-        public void UpdateTodoTask_AddNewTask_WhenTaskDoesNotExist(TodoDto todoDto)
+        public void AddTodoTask_AddNewTask_WhenTaskDoesNotExist(TodoDto todoDto)
         {
             // Arrange
             var expectedTodoTask = new TaskEntity
@@ -102,7 +102,7 @@
                 Status = (int)todoDto.Status
             };
 
-            var newTask = new TaskEntity { };
+            var newTask = new TaskEntity { Id = todoDto.Id };
 
             const TaskEntity nonExistingProperty = null;
             _todoRepositoryMock.Setup(repo => repo.GetTask(It.IsAny<int>()))
@@ -112,13 +112,11 @@
                 .Returns(newTask);
 
             // Act
-            _todoService.UpdateTask(todoDto);
+            _todoService.AddTask(todoDto);
 
             // Assert
             newTask.Should().BeEquivalentTo(expectedTodoTask, options =>
                 options.Excluding(p => p.UpdatedDate));
-
-            _todoRepositoryMock.Verify(repo => repo.GetTask(It.Is<int>(actualId => actualId == todoDto.Id)));
         }
     }
 }
