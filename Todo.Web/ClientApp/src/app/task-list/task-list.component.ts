@@ -3,10 +3,10 @@ import { TaskService } from '../services/tasks.service';
 
 @Component({
   selector: 'app-fetch-data',
-  templateUrl: './fetch-data.component.html',
+  templateUrl: './task-list.component.html',
 })
 
-export class FetchDataComponent {
+export class TaskListComponent {
   public pendingTasks: Task[];
   public completedTasks: Task[];
 

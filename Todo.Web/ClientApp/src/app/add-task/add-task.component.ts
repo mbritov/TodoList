@@ -20,15 +20,8 @@ export class AddTaskComponent implements OnInit {
   public saveTask() {
     this.taskService.create(this.task)
     .subscribe(result => {
-      this.router.navigate(['fetch-data']);
+      this.router.navigate(['task-list']);
     },
     error => console.error(error));
   }
-}
-
-interface Task {
-  id: number;
-  subject: string;
-  description: string;
-  status: number;
 }

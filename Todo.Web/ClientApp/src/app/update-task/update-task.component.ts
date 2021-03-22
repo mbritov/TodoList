@@ -35,7 +35,7 @@ export class UpdateTaskComponent implements OnInit {
   public saveTask() {
     this.taskService.update(this.currentTask)
       .subscribe(result => {
-        this.router.navigate(['fetch-data']);
+        this.router.navigate(['task-list']);
       },
       error => console.error(error));
   }
