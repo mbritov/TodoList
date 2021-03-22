@@ -1,42 +1,47 @@
-<h1>Todo list</h1>
-
-<p>Tasks</p>
+<h1>Todo Tasks list</h1>
 
 <p *ngIf="!pendingTasks"><em>Loading...</em></p>
 
-<button (click)="createTask()">Create New Task</button>
+<p>
+  <button [routerLink]='["/add-task"]'>Create New Task</button>
+</p>
 
+<h3> Pending tasks</h3>
 <table class='table' *ngIf="pendingTasks">
   <thead>
     <tr>
       <th>Subject</th>
       <th>Description</th>
-      <th>Status</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let task of pendingTasks">
       <td>{{ task.subject }}</td>
-      <td>{{ task.secription }}</td>
-      <td>{{ task.status }}</td>
+      <td>{{ task.description }}</td>
+      <td>
+        <button routerLink="/update-task/{{task.id}}" (click)="editTask(task)">Edit</button>
+      </td>
     </tr>
   </tbody>
 </table>
 
-
+<h3> Completed tasks</h3>
 <table class='table' *ngIf="completedTasks">
   <thead>
     <tr>
       <th>Subject</th>
       <th>Description</th>
-      <th>Status</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let task of completedTasks">
       <td>{{ task.subject }}</td>
-      <td>{{ task.secription }}</td>
-      <td>{{ task.status }}</td>
+      <td>{{ task.description }}</td>
+      <td>
+        <button routerLink="/update-task/{{task.id}}" (click)="editTask(task)">Edit</button>
+      </td>
     </tr>
   </tbody>
 </table>
