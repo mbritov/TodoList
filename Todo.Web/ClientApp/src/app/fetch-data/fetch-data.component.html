@@ -1,0 +1,42 @@
+<h1>Todo list</h1>
+
+<p>Tasks</p>
+
+<p *ngIf="!pendingTasks"><em>Loading...</em></p>
+
+<button (click)="createTask()">Create New Task</button>
+
+<table class='table' *ngIf="pendingTasks">
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Description</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let task of pendingTasks">
+      <td>{{ task.subject }}</td>
+      <td>{{ task.secription }}</td>
+      <td>{{ task.status }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class='table' *ngIf="completedTasks">
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Description</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let task of completedTasks">
+      <td>{{ task.subject }}</td>
+      <td>{{ task.secription }}</td>
+      <td>{{ task.status }}</td>
+    </tr>
+  </tbody>
+</table>
