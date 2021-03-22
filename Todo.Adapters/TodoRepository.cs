@@ -7,14 +7,13 @@
 
     public class TodoRepository : ITodoRepository
     {
-       // private Core.Db.DbContext _context;
         private List<TaskEntity> _taskCollection;
 
+        // private Core.Db.DbContext _context;
         //public TodoRepository(Core.Db.DbContext context)
         public TodoRepository()
         {
             _taskCollection = new List<TaskEntity>();
-            //_context = context;
         }
 
         public TaskEntity CreateTask()
@@ -32,7 +31,7 @@
 
         public TaskEntity GetTask(int id)
         {
-            return _taskCollection.FirstOrDefault(t => t.Id == id); // TODO
+            return _taskCollection.FirstOrDefault(t => t.Id == id);
         }
     }
 }
