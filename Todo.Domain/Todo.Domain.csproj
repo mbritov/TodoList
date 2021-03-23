@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <PropertyGroup Label="Globals">
-    <SccProjectName>%24/Genesis/Next/Development/SprintWork/CmsClassic.Next/WellsFargo.Core/VOM.Domain</SccProjectName>
-    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
-    <SccAuxPath>https://tfs.fncinc.com/tfs/atlas</SccAuxPath>
+    <SccProjectName></SccProjectName>
+    <SccProvider></SccProvider>
+    <SccAuxPath></SccAuxPath>
     <SccLocalPath>.</SccLocalPath>
   </PropertyGroup>
 

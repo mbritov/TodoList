@@ -43,7 +43,7 @@ namespace TodoList
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "WellsFargo.API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "TodoList.API V1");
                 });
             }
             else

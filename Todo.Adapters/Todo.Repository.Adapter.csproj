@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Todo.Domain\Todo.Domain.csproj" />
-    <!-- <ProjectReference Include="..\WellsFargo.Core.Db\Todo.Core.Db.csproj" /> -->
   </ItemGroup>
 
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
