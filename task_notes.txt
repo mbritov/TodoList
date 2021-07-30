@@ -1,0 +1,21 @@
+
+• How long did you spend on your solution?
+Around 5.5 hours
+
+• How do you build and run your solution?
+Solution was build using VS2017, using 1 of standart templates (Asp.Net Core + Angular). 
+The easiest way to build and run it: - open solution file in VS and run it (Ctrl+F5)
+UI part can also be run separately: npm install, ng serve
+
+Of course deployment needs to be configured, currently it is only for running on localhost
+
+• What technical and functional assumptions did you make when implementing your solution?
+- I assumed that for simplicity application will have only 1 user support, no authentication and no database storage. Of course without this features it won't be much useful, but implementing it will require more time.
+
+
+• Explain briefly your technical design and why do you think is the best approach to this problem.
+I used some of common best practicies like Dependency Injection, splitting code into several layers - Domain (Entities), Aplication (Services and Business logic), Data Layer (data is stored in memory in this partucar case), RestApi. This separation allows to maintain high test coverage, it is more readable and easier to maintain and extend with new functionality.
+
+• If you were unable to complete any user stories, outline why and how would you have liked to implement them.
+I did not manage to cover with unit test UI part. I would use one of existing framework (e.g. Jasmine)
+Also UI part is ugly, needs to apply some css styling
